@@ -1,12 +1,13 @@
 document.addEventListener("DOMContentLoaded", function() {
+    console.log("🚀 Ad-Manager: Initializing from GitHub...");
 
     // --- 1. SETTINGS DICTIONARY ---
-    // Update your Keys and URLs here. 
     const adSettings = {
         popunder: {
             url: "https://pl26803941.effectivegatecpm.com/f7/4f/6b/f74f6bdf9.js"
         },
         socialBar: {
+            // Replace 'YOUR_SOCIAL_KEY' with your actual key if needed
             url: "https://pl26803607.effectivegatecpm.com/f5/51/0d/f5510d214261a4d0422738037ec6bf8f.js"
         },
         vertical: {
@@ -24,56 +25,42 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
-    // --- 2. EXECUTION LOGIC ---
+    // --- 2. HELPER FUNCTION FOR INJECTION ---
+    function injectScript(selector, src, type = "standard", config = null) {
+        const container = document.querySelector(selector);
+        if (!container) return;
 
-    // Popunder
-    const popDiv = document.querySelector('.ad-popunder');
-    if (popDiv) {
-        const s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = adSettings.popunder.url;
-        popDiv.appendChild(s);
+        console.log(`Checking container: ${selector} - Found!`);
+
+        if (type === "standard") {
+            const s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = src;
+            s.onerror = function() {
+                console.error(`❌ Ad-Manager Error: Failed to load script for ${selector}. Likely blocked by Antivirus/AdBlock.`);
+            };
+            container.appendChild(s);
+        } 
+        else if (type === "atOptions" && config) {
+            const conf = document.createElement('script');
+            conf.text = `atOptions = { 'key' : '${config.key}', 'format' : 'iframe', 'height' : ${config.height}, 'width' : ${config.width}, 'params' : {} };`;
+            container.appendChild(conf);
+
+            const inv = document.createElement('script');
+            inv.src = `//www.highperformanceformat.com/${config.key}/invoke.js`;
+            inv.onerror = () => console.error(`❌ Ad-Manager Error: Banner blocked for ${selector}`);
+            container.appendChild(inv);
+        }
     }
 
-    // Social Bar
-    const socialDiv = document.querySelector('.ad-social');
-    if (socialDiv) {
-        const s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = adSettings.socialBar.url;
-        socialDiv.appendChild(s);
-    }
+    // --- 3. EXECUTION ---
+    injectScript('.ad-popunder', adSettings.popunder.url);
+    injectScript('.ad-social', adSettings.socialBar.url);
+    injectScript('.ad-native', adSettings.native.url);
+    
+    // Banners use the 'atOptions' type
+    injectScript('.ad-vertical', null, "atOptions", adSettings.vertical);
+    injectScript('.ad-banner', null, "atOptions", adSettings.banner);
 
-    // Vertical Banner
-    const vertDiv = document.querySelector('.ad-vertical');
-    if (vertDiv) {
-        const conf = document.createElement('script');
-        conf.text = `atOptions = { 'key' : '${adSettings.vertical.key}', 'format' : 'iframe', 'height' : ${adSettings.vertical.height}, 'width' : ${adSettings.vertical.width}, 'params' : {} };`;
-        vertDiv.appendChild(conf);
-
-        const inv = document.createElement('script');
-        inv.src = `//www.highperformanceformat.com/${adSettings.vertical.key}/invoke.js`;
-        vertDiv.appendChild(inv);
-    }
-
-    // Standard Banner
-    const bannerDiv = document.querySelector('.ad-banner');
-    if (bannerDiv) {
-        const conf = document.createElement('script');
-        conf.text = `atOptions = { 'key' : '${adSettings.banner.key}', 'format' : 'iframe', 'height' : ${adSettings.banner.height}, 'width' : ${adSettings.banner.width}, 'params' : {} };`;
-        bannerDiv.appendChild(conf);
-
-        const inv = document.createElement('script');
-        inv.src = `//www.highperformanceformat.com/${adSettings.banner.key}/invoke.js`;
-        bannerDiv.appendChild(inv);
-    }
-
-    // Native Ad
-    const nativeDiv = document.querySelector('.ad-native');
-    if (nativeDiv) {
-        const s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = adSettings.native.url;
-        nativeDiv.appendChild(s);
-    }
+    console.log("✅ Ad-Manager: Injection complete.");
 });
