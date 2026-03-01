@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
         },
         socialBar: {
             // Replace 'YOUR_SOCIAL_KEY' with your actual key if needed
-            url: "https://pl26803607.effectivegatecpm.com/f5/51/0d/f5510d214261a4d0422738037ec6bf8f.js"
+            url: "https://bit.ly/4siVtJA"
         },
         vertical: {
             key: "YOUR_VERTICAL_BANNER_KEY",
@@ -64,3 +64,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
     console.log("✅ Ad-Manager: Injection complete.");
 });
+
