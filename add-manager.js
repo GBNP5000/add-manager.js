@@ -1,11 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    // --- 1. SETTINGS DICTIONARY (Auto-generated) ---
+    // --- 1. SETTINGS DICTIONARY ---
     const adSettings = {
         popunder: {
             url: "https://pl26803941.profitableratecpmnetwork.com/f7/4f/6b/f74f6bdf9d05b130a5818a491f243f2b.js"
         },
-        smartlink: null,
         nativeBanner: {
             url: "https://pl31310401.profitableratecpmnetwork.com/3f03da4d9b38e92391206043bc9d9027/invoke.js"
         },
@@ -20,13 +19,29 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
-    // Helper to load atOptions Iframe-based Banners
-    function loadIframeAd(container, settings) {
-        if (!container || !settings || !settings.key) return;
+    // --- 2. AD LOADERS ---
+
+    // Standard Script Loader (Popunder, Social Bar)
+    function loadScriptAd(selector, settings) {
+        if (!settings || !settings.url) return;
+        const container = document.querySelector(selector);
+        if (container) {
+            const s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = settings.url;
+            container.appendChild(s);
+        }
+    }
+
+    // Iframe Banner Loader (300x250, 160x600, 728x90, etc.)
+    function loadIframeBanner(selector, settings) {
+        if (!settings || !settings.key) return;
+        const container = document.querySelector(selector);
+        if (!container) return;
 
         const conf = document.createElement('script');
         conf.type = 'text/javascript';
-        conf.text = `window.atOptions = { 
+        conf.text = `atOptions = { 
             'key' : '${settings.key}', 
             'format' : 'iframe', 
             'height' : ${settings.height || 250}, 
@@ -41,22 +56,28 @@ document.addEventListener("DOMContentLoaded", function() {
         container.appendChild(inv);
     }
 
-    // Helper to load standard script tags
-    function loadScriptAd(selector, settings) {
+    // Native Banner Loader
+    function loadNativeAd(selector, settings) {
         if (!settings || !settings.url) return;
         const container = document.querySelector(selector);
-        if (container) {
-            const s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.src = settings.url;
-            container.appendChild(s);
+        if (!container) return;
+
+        if (settings.container) {
+            const nativeDiv = document.createElement('div');
+            nativeDiv.id = settings.container;
+            container.appendChild(nativeDiv);
         }
+
+        const s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = settings.url;
+        container.appendChild(s);
     }
 
-    // --- 2. EXECUTION LOGIC ---
+    // --- 3. EXECUTION ---
     loadScriptAd('.ad-popunder', adSettings.popunder);
     loadScriptAd('.ad-social', adSettings.socialBar);
-    loadScriptAd('.ad-native', adSettings.nativeBanner);
-
-    loadIframeAd(document.querySelector('.ad-banner'), adSettings.banner);
+    loadNativeAd('.ad-native', adSettings.nativeBanner);
+    loadIframeBanner('.ad-banner', adSettings.banner);
 });
