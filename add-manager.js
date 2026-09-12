@@ -1,67 +1,62 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("🚀 Ad-Manager: Initializing from GitHub...");
 
-    // --- 1. SETTINGS DICTIONARY ---
+    // --- 1. SETTINGS DICTIONARY (Auto-generated) ---
     const adSettings = {
         popunder: {
-            url: "https://pl26803941.effectivegatecpm.com/f7/4f/6b/f74f6bdf9.js"
+            url: "https://pl26803941.profitableratecpmnetwork.com/f7/4f/6b/f74f6bdf9d05b130a5818a491f243f2b.js"
+        },
+        smartlink: null,
+        nativeBanner: {
+            url: "https://pl31310401.profitableratecpmnetwork.com/3f03da4d9b38e92391206043bc9d9027/invoke.js"
         },
         socialBar: {
-            // Replace 'YOUR_SOCIAL_KEY' with your actual key if needed
-            url: "https://bit.ly/4siVtJA"
-        },
-        vertical: {
-            key: "YOUR_VERTICAL_BANNER_KEY",
-            width: 160,
-            height: 600
+            url: "https://pl26803607.profitableratecpmnetwork.com/f5/51/0d/f5510d214261a4d0422738037ec6bf8f.js"
         },
         banner: {
-            key: "YOUR_SQUARE_BANNER_KEY",
+            url: "https://www.highrevenueformat.com/071a26e7721c0c8f59ad44c14bbeea57/invoke.js",
+            key: "071a26e7721c0c8f59ad44c14bbeea57",
             width: 300,
             height: 250
-        },
-        native: {
-            url: "https://www.topcreativeformat.com/YOUR_NATIVE_KEY/invoke.js"
         }
     };
 
-    // --- 2. HELPER FUNCTION FOR INJECTION ---
-    function injectScript(selector, src, type = "standard", config = null) {
+    // Helper to load atOptions Iframe-based Banners
+    function loadIframeAd(container, settings) {
+        if (!container || !settings || !settings.key) return;
+
+        const conf = document.createElement('script');
+        conf.type = 'text/javascript';
+        conf.text = `window.atOptions = { 
+            'key' : '${settings.key}', 
+            'format' : 'iframe', 
+            'height' : ${settings.height || 250}, 
+            'width' : ${settings.width || 300}, 
+            'params' : {} 
+        };`;
+        container.appendChild(conf);
+
+        const inv = document.createElement('script');
+        inv.type = 'text/javascript';
+        inv.src = `https://www.highperformanceformat.com/${settings.key}/invoke.js`;
+        container.appendChild(inv);
+    }
+
+    // Helper to load standard script tags
+    function loadScriptAd(selector, settings) {
+        if (!settings || !settings.url) return;
         const container = document.querySelector(selector);
-        if (!container) return;
-
-        console.log(`Checking container: ${selector} - Found!`);
-
-        if (type === "standard") {
+        if (container) {
             const s = document.createElement('script');
             s.type = 'text/javascript';
-            s.src = src;
-            s.onerror = function() {
-                console.error(`❌ Ad-Manager Error: Failed to load script for ${selector}. Likely blocked by Antivirus/AdBlock.`);
-            };
+            s.src = settings.url;
             container.appendChild(s);
-        } 
-        else if (type === "atOptions" && config) {
-            const conf = document.createElement('script');
-            conf.text = `atOptions = { 'key' : '${config.key}', 'format' : 'iframe', 'height' : ${config.height}, 'width' : ${config.width}, 'params' : {} };`;
-            container.appendChild(conf);
-
-            const inv = document.createElement('script');
-            inv.src = `//www.highperformanceformat.com/${config.key}/invoke.js`;
-            inv.onerror = () => console.error(`❌ Ad-Manager Error: Banner blocked for ${selector}`);
-            container.appendChild(inv);
         }
     }
 
-    // --- 3. EXECUTION ---
-    injectScript('.ad-popunder', adSettings.popunder.url);
-    injectScript('.ad-social', adSettings.socialBar.url);
-    injectScript('.ad-native', adSettings.native.url);
-    
-    // Banners use the 'atOptions' type
-    injectScript('.ad-vertical', null, "atOptions", adSettings.vertical);
-    injectScript('.ad-banner', null, "atOptions", adSettings.banner);
+    // --- 2. EXECUTION LOGIC ---
+    loadScriptAd('.ad-popunder', adSettings.popunder);
+    loadScriptAd('.ad-social', adSettings.socialBar);
+    loadScriptAd('.ad-native', adSettings.nativeBanner);
 
-    console.log("✅ Ad-Manager: Injection complete.");
+    loadIframeAd(document.querySelector('.ad-banner'), adSettings.banner);
 });
-
