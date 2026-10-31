@@ -1,1 +1,19 @@
-
+{
+  "popunder": {
+    "script": "<script data-cfasync=\"false\" src=\"https://abscloud.org/1/f74f6bdf9d05b130a5818a491f243f2b\"></script>"
+  },
+  "social": {
+    "script": "<script data-cfasync=\"false\" src=\"https://bauval.org/14/f5510d214261a4d0422738037ec6bf8f\"></script>"
+  },
+  "vertical": {
+    "script": "<script async=\"async\" data-cfasync=\"false\" src=\"https://bauval.org/21/3f03da4d9b38e92391206043bc9d9027\"></script> <div id=\"container-3f03da4d9b38e92391206043bc9d9027\"></div>"
+  },
+  "banner": {
+    "script": "<script> atOptions = { 'key' : '071a26e7721c0c8f59ad44c14bbeea57', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script> <script src=\"https://bauval.org/22/071a26e7721c0c8f59ad44c14bbeea57\"></script>"
+  },
+  "smartlinks": [
+    "https://asiafilm.org/4/0acb9504d1602fb34911afc7304fb118",
+    "https://asiafilm.org/4/9350a288c2d53f379b8706da1fb6fde4",
+    "https://asiafilm.org/4/d52d736f7acf000347c0871ed8cff7a6"
+  ]
+}
