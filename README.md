@@ -1,1 +1,1 @@
-# add-manager.js
+# ADSTERRA MANAGER
